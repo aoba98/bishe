@@ -13,3 +13,5 @@
 1. [Awesome-TensorFlow-Chinese](https://github.com/fendouai/Awesome-TensorFlow-Chinese)
 
 2. [莫烦Python教程——tensorflow](https://morvanzhou.github.io/tutorials/machine-learning/tensorflow)
+
+3. [TensorFlow 中文教程](https://github.com/Hvass-Labs/TensorFlow-Tutorials-Chinese)
