@@ -1,10 +1,11 @@
-from keras.layers import Input, LSTM, Bidirectional, Dense, Multiply
-from keras.models import Model
-from keras.regularizers import l2
-from keras.optimizers import Adam
-from keras.losses import Huber
-from keras.metrics import mse
-from keras.utils import plot_model
+# from tensorflow import keras as tkeras
+from tensorflow.keras.layers import Input, LSTM, Bidirectional, Dense, Multiply
+from tensorflow.keras.models import Model
+from tensorflow.keras.regularizers import l2
+from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.losses import Huber
+from tensorflow.keras.metrics import mse
+from tensorflow.keras.utils import plot_model
 
 
 def construct_model():
