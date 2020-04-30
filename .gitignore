@@ -368,6 +368,3 @@ TSWLatexianTemp*
 
 # standalone packages
 *.sta
-
-# filesystem
-.DS_Store
