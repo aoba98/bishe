@@ -1,0 +1,172 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+% The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\ifCLASSOPTIONcompsoc
+    \usepackage[caption=false, font=normalsize, labelfont=sf, textfont=sf]{subfig}
+\else
+\usepackage[caption=false, font=footnotesize]{subfig}
+\fi
+
+\begin{document}
+
+\title{Forecasting of rice yields in Guangxi Province China via Bi-LSTM}
+
+\author{\IEEEauthorblockN{1\textsuperscript{st} Given Name Surname}
+\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
+\textit{name of organization (of Aff.)}\\
+City, Country \\
+email address or ORCID}
+\and
+\IEEEauthorblockN{2\textsuperscript{nd} Given Name Surname}
+\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
+\textit{name of organization (of Aff.)}\\
+City, Country \\
+email address or ORCID}
+\and
+\IEEEauthorblockN{3\textsuperscript{rd} Given Name Surname}
+\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
+\textit{name of organization (of Aff.)}\\
+City, Country \\
+email address or ORCID}
+\and
+\IEEEauthorblockN{4\textsuperscript{th} Given Name Surname}
+\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
+\textit{name of organization (of Aff.)}\\
+City, Country \\
+email address or ORCID}
+\and
+\IEEEauthorblockN{5\textsuperscript{th} Given Name Surname}
+\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
+\textit{name of organization (of Aff.)}\\
+City, Country \\
+email address or ORCID}
+\and
+\IEEEauthorblockN{6\textsuperscript{th} Given Name Surname}
+\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
+\textit{name of organization (of Aff.)}\\
+City, Country \\
+email address or ORCID}
+}
+
+\maketitle
+
+\begin{abstract}
+To predict the rice yield of 81 counties in Guangxi province China, this paper picks out the algorithms with best performance in predicting the agricultural yield by testing several regression algorithms on winter wheat yield in the U.S which holds more data. The result of algorithm test shows that random forest and LSTM network are the best performance algorithms to predict the agricultural yield whose accuracy reach 85\% more. Using the results of the algorithm test, the random forest and LSTM RNN with the best performance are used to predict the yield of early and second rice in Guangxi province. The results show that the accuracy of random forest without location information is 83.7\%, while the accuracy of LSTM RNN is 87.7\%. Both algorithms can use climate data to effectively predict crop yields for the current season.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Prediction, Agricultural Yield, Random Forest, LSTM RNN
+\end{IEEEkeywords}
+
+\section{Introduction}
+Precision agriculture, first proposed by the United States in the 1990s, points out a new direction for the development of modern agriculture. Precision agriculture is a modern agricultural technology based on 3S technology(GPS, GIS and RS), decision support technology and intelligent equipment technology to implement precise timing, positioning and quantitative control of agriculture, agricultural resources and farming. Its core lies in the collection and processing of farmland information, and combined with climate, satellite, geography and other external conditions for fine management and guidance of agricultural cultivation, so as to improve agricultural output and quality. Many developed countries and regions have advanced agricultural yield forecasting system, such as Monitoring Agricultural ResourceS(MARS) of EU.
+
+MARS using remote sensing started in 1988, initially designed to apply emerging space technologies for providing independent and timely information on crop areas and yields. Since 1993, this activity has contributed towards a more effective and efficient management of the common agricultural policy(CAP) through the provision of a broader range of technical support services to DG Agriculture and Member-State Administrations. Since 2000, the expertise in crop yields has been applied outside the EU. Services have been developed to support EU aid and assistance policies and provide building blocks for a European capability for global agricultural monitoring and food security assessment.
+
+Crop yield forecasting is undertaken to provide monthly bulletins forecasting crop yields to support the EU's Common Agriculture Policy(CAP). Providing early warning of crop shortages or failure provides rapid information for EU development aid activities to support food insecure countries, as part of the JRC work on global food security.
+
+
+\section{Related works}
+The research on corp yield forecasting mainly use satellite remote sensing data and sensor network data. Satellite remote sensing data are used to study the relationship between crop yield and sunshine and surface conditions in a large scope, such as country and river basin. The sensor network data is closer to the plants, which is more used to monitoring the condition within a farm. 
+
+\subsection{Satellite remote sensing data}
+The basic idea of satellite remote sensing technology is that the wavelength and frequency of reflected waves are different in different growth stages of different crops, which result in different total energy and radiation of reflected waves. The vegetation growth can be obtained by monitoring the reflected waves on the ground through satellites, and then the yield of crops can be predicted. However, Such data will be restricted by resolution of satellites and other factors like cloud, which results in the increment of the cost.
+
+Bastiaanssen(2003)\cite{Bastiaanssen2003} measure corp rotation cycle and predict corp yield in Indus basin base on satellite remote sensing data, their research finds that this model has better prediction accuracy on wheat, rice and sugarcane comparing to cotton. Becker-Reshef(2010)\cite{Becker-Reshef2010} use regression model base on  combination of  corp data and daily surface reflections data to predict winter wheat yield in Ukraine, which can give alert on production shortage. De Wit(2007)\cite{DeWit2007} use Kalma Filter to assimilate the soil water content reflected by satellite remote sensing data, which improve the prediction accuracy of winter wheat yield.
+
+\subsection{Sensor network data}
+Comparing to the satellite data, sensor network data is both more accessible and more economical, which provides more accurate data on a small scale, always within a farm, and a better overview of local envirmental conditions, which can guide better farming.
+
+Mkhabela(2011)\cite{Mkhabela2011} uses sensors like Advanced Very High Resolution Radiometer(AVHRR), Moderate-resolution Imaging Spectroradiometer(MODIS) e.t to get NDVI data, with such data they use regression model to predict the yield of soybean and spring wheat from 2000 to 2006 and get good performance which contral the error under 10\%. Prasad(2006)\cite{Prasad2006} use NDVI, Vegetation Condition index(VCI) and Tempreture Condition index(TCI) data to monitor the drought and assess vegetayion health and yield, with piecewise linear regression method they predicted the soybean yield in lowa for 19 years.
+
+\section{Data}
+Dataset includes data in winter wheat yield in U.S with local clomate conditions in 2013 and 2014, which contains 150 counties from 5 states and has 26 features, 360042 entries.
+
+\subsection{Missing items}
+There are 654 missing items in data, accounting for 1.81\% of the total data volume, among which 2013 accounts for 43.42\%. Deleting an entry with missing items may result in the decline of continuity due to the characteristics of crop growth. Filling to missing items with the nearest and most recent entry due to the continuity of climate data in both space and time. A single miss item being fulled by its adjacent items, while continuous missing data can be fulled from two ends to the middle one.
+
+\subsection{Abnormal data}
+By looking at the data, apparent anomaly found in the yield. There are entries having nonzero yield with relatively short period of time from being seeded to harvest which was recorded by column \textit{DayInSeason}. 
+
+Fig.~\ref{1a} shows the distribution of duration between first record and the last in different locations, locations have 185 days of records account for  93.6\%. Therefore, delete data from locations whose planting duration less than 185 days. However, these positions not all were fully recorded for 185 days shown by Fig.~\ref{1c}, there are days not to be recorded for some reason. After all position with miss records being deleted, all the data had consistent planting duration shown by Fig.~\ref{1d}.
+
+
+\begin{figure} 
+    \centering
+  \subfloat[\label{1a}]{%
+       \includegraphics[width=0.45\linewidth]{./figures/PDF of max DayInSeason (2013).png}}
+    \hfill
+  \subfloat[\label{1b}]{%
+        \includegraphics[width=0.45\linewidth]{./figures/date&locations(origin).png}}
+    \\
+  \subfloat[\label{1c}]{%
+        \includegraphics[width=0.45\linewidth]{./figures/date&locations.png}}
+    \hfill
+  \subfloat[\label{1d}]{%
+        \includegraphics[width=0.45\linewidth]{./figures/date&locations(clean).png}}
+  \caption{Missing data processing}
+  \label{fig-missing-data} 
+\end{figure}
+
+\subsection{Map visualization}
+For data with location, map visualization can always help us find some intuitive relations between location and target. According to Fig.~\ref{fig:Map_visual}-(b), there are two intuitive conclusions:
+\begin{itemize}
+    \item The yield in the northern growing areas was significantly higher than that in the south. 
+    \item In the south growing areas, the more east the locations are the high the yields.
+\end{itemize}
+
+\begin{figure*}[!htb]
+    \centering
+  \subfloat[\label{mapa}]{%
+       \includegraphics[width=0.45\linewidth]{./figures/data_locations.png}}
+    \hfill
+  \subfloat[\label{mapb}]{%
+        \includegraphics[width=0.45\linewidth]{./figures/yield&loc.png}}
+  \label{fig:Map_visual} 
+  \caption{(a)shows the location of all data being collected, yellow points represent locations monitered for two years which can be used for forecasting next year's yields via data of previous years. (b)shows the yeild varying by locations}
+\end{figure*}
+
+\subsection{Feature selection}
+There are significant multicollinearity between some features in the data, which can lead to errors and distortions in the results\cite{farrar1967multicollinearity}. By calculating the correlation coefficient between the features, findding that there are features with correlation higher than 90\% with another, some even reach 99\%. Table.~\ref{tab:correlation} shows the features correlation high than 90\%, these features accompanied with some other features unrelated to target such as \textit{State}, \textit{Date} e.t.
+
+\begin{table}[htbp]
+\caption{Features correlation high than 90\%}
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Feature 1 & Feature 2 & cor1 & cor2 & cor3\\
+\hline
+apparentTempMin & TempMin     & 0.99 & -0.04 & -0.06 \\
+apparentTempMax & TempMax     & 0.99 & -0.14 & -0.15 \\
+precipIntensity & precipIntensityMax & 0.91 & 0.04  & 0.03  \\
+dewPoint & tempMin & 0.91 & 0.01  & -0.06 \\
+apparentTempMin & dewPoint & 0.90 & -0.04 & 0.01 \\
+\hline
+\multicolumn{5}{l}{$^{\mathrm{a}}$cor1: correlation between feature1 and feture2} \\
+\multicolumn{5}{l}{$^{\mathrm{b}}$cor2: correlation between feature1 and yeild} \\ 
+\multicolumn{5}{l}{$^{\mathrm{c}}$cor3: correlation between feature2 and yeild} \\
+\end{tabular}
+\label{tab:correlation}
+\end{center}
+\end{table}
+
+\section{Algorithm benchmark}
+
+
+\section{Rice yields forcast in Guangxi}
+
+
+% \section*{References}
+
+\bibliographystyle{IEEEtran}
+\bibliography{IEEEabrv,reference}
+
+\end{document}
