@@ -113,7 +113,7 @@ Fig.~\ref{1a} shows the distribution of duration between first record and the la
   \subfloat[\label{1d}]{%
         \includegraphics[width=0.45\linewidth]{./figures/date&locations(clean).png}}
   \caption{Missing data processing}
-  \label{fig-missing-data} 
+  \label{fig:missing-data} 
 \end{figure}
 
 \subsection{Map visualization}
@@ -128,7 +128,7 @@ For data with location, map visualization can always help us find some intuitive
   \subfloat[\label{mapa}]{%
        \includegraphics[width=0.45\linewidth]{./figures/data_locations.png}}
     \hfill
-  \subfloat[\label{mapb}]{%
+  \subfloat[\label{mapb}]{% TODO: replot figure 
         \includegraphics[width=0.45\linewidth]{./figures/yield&loc.png}}
   \label{fig:Map_visual} 
   \caption{(a)shows the location of all data being collected, yellow points represent locations monitered for two years which can be used for forecasting next year's yields via data of previous years. (b)shows the yeild varying by locations}
@@ -158,10 +158,23 @@ apparentTempMin & dewPoint & 0.90 & -0.04 & 0.01 \\
 \end{center}
 \end{table}
 
-\section{Algorithm benchmark}
+\section{Bi-LSTM Model}
+\subsection{LSTM}
+Recurrent Neural Network is a kind of neural network that is good at processing time series data. It can well process task with continuous time and contextual relationship wich is exactly in line with the characteristics of the crop growth. The connections existing between each layer make the network better in learing time series relations, but on the other hand, this leads to gradient explosion in backpropagation. \cite{hochreiter1997long}
 
+\section{Experiment}
+\subsection{Test method}
+Before testing, use \textit{Min-Max} method shown by (~\ref{eq:standarlize}) to standarlize data, and group data by location. After doing so, data of 2013 has been transformed into a tensor in shape $901\times18\times186$(901 positions, 18 features, 186 days). Use sklearn cross-validation tool with default parameters to test the performance of the algorithms which is measured by MSE.
 
-\section{Rice yields forcast in Guangxi}
+\begin{equation}
+  \frac{x_i-\min \left( x_i \right)}{\max \left( x_i \right) -\min \left( x_i \right)}
+\label{eq:standarlize}
+\end{equation}
+
+\subsection{Result}
+The result of 
+
+\section{Conclusion}
 
 
 % \section*{References}
