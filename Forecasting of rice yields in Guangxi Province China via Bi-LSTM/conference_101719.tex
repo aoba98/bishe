@@ -215,15 +215,47 @@ As shown in Fig.~\ref{fig:model}, build Bi-LSTM network using Keras and Tensorfl
 
 \section{Experiment}
 \subsection{Test method}
-Before testing, use \textit{Min-Max} method shown by (~\ref{eq:standarlize}) to standarlize data, and group data by location. After doing so, data of 2013 has been transformed into a tensor in shape $901\times18\times186$(901 positions, 18 features, 186 days). Use sklearn cross-validation tool with default parameters to test the performance of the algorithms which is measured by MSE.
+Before testing, use \textit{Min-Max} method shown by (~\ref{eq:standarlize}) to standarlize data and shuffle data due to the data is arranged by location. If not doing so, there will be data from new locations in train data while spliting the test set and train set.
 
 \begin{equation}
   \frac{x_i-\min \left( x_i \right)}{\max \left( x_i \right) -\min \left( x_i \right)}
 \label{eq:standarlize}
 \end{equation}
 
-\subsection{Result}
-The result of 
+Because the time complexity of SVR is more than twice of the data size\cite{clarke2005analysis}, extract 10000 entries of data in order to reduce time, randomly extract and run multiple times to avoid accidental exceptions caused by extraction.
+
+
+
+\subsection{Test Result}
+The result of algorithm test is as shown in Table.~\ref{tab:result}, 
+
+\begin{table}[htbp]
+  \caption{Performance of algrorithms on corp yield prediction}
+  \begin{center}
+  \begin{tabular}{c|c}
+  \hline
+  Algorithm                                    & MSE      \\
+  \hline
+  Random Forest                                & 0.0048   \\
+  Random Forest(10K)                           & 0.1096   \\
+  KNN                                          & 60.6555  \\
+  Polynomial regression                        & 108.4011 \\
+  Polynomial regression with L2 regularization & 108.4891 \\
+  Linear regression                            & 179.4249 \\
+  Linear regression with L2 regularization     & 179.4339 \\
+  SVR(1K)                                      & 188.4630 \\
+  SVR RBF kernel(10K)                          & 193.5149 \\
+  SVR linear kernel(10K)                       & 197.0644 \\
+  Gradient boost                               & 231.4852 \\
+  KRR                                          & 333.6586 \\
+  \hline
+  \multicolumn{2}{l}{$^{\mathrm{a}}$ 10K: Extract 10K entries of data to reduce training time} \\
+  \end{tabular}
+  \label{tab:result}
+  \end{center}
+  \end{table}
+
+% After doing so, data of 2013 has been transformed into a tensor in shape $901\times18\times186$(901 positions, 18 features, 186 days). Use sklearn cross-validation tool with default parameters to test the performance of the algorithms which is measured by MSE.
 
 \section{Conclusion}
 
