@@ -215,7 +215,7 @@ As shown in Fig.~\ref{fig:model}, build Bi-LSTM network using Keras and Tensorfl
 
 \section{Experiment}
 \subsection{Test method}
-Before testing, use \textit{Min-Max} method shown by (~\ref{eq:standarlize}) to standarlize data and shuffle data due to the data is arranged by location. If not doing so, there will be data from new locations in train data while spliting the test set and train set.
+Before testing, use \textit{Min-Max} method shown by (\ref{eq:standarlize}) to standarlize data and shuffle data due to the data is arranged by location. If not doing so, there will be data from new locations in train data while spliting the test set and train set.
 
 \begin{equation}
   \frac{x_i-\min \left( x_i \right)}{\max \left( x_i \right) -\min \left( x_i \right)}
@@ -227,12 +227,12 @@ Because the time complexity of SVR is more than twice of the data size\cite{clar
 
 
 \subsection{Test Result}
-The result of algorithm test is as shown in Table.~\ref{tab:result}, 
+The result of algorithm test is as shown in Table.~\ref{tab:result}, and RF shows a severe overfiting among all the algoritms. The prediction contribution of features shown in Table.~\ref{tab:RF_contribution}, it is obviously that yield prediction is dominated by loction.
 
 \begin{table}[htbp]
   \caption{Performance of algrorithms on corp yield prediction}
   \begin{center}
-  \begin{tabular}{c|c}
+  \begin{tabular}{|c|c|}
   \hline
   Algorithm                                    & MSE      \\
   \hline
@@ -253,9 +253,51 @@ The result of algorithm test is as shown in Table.~\ref{tab:result},
   \end{tabular}
   \label{tab:result}
   \end{center}
-  \end{table}
+\end{table}
 
-% After doing so, data of 2013 has been transformed into a tensor in shape $901\times18\times186$(901 positions, 18 features, 186 days). Use sklearn cross-validation tool with default parameters to test the performance of the algorithms which is measured by MSE.
+\begin{table}[htbp]
+    \caption{Feature contribution fo RF}
+    \begin{center}
+    \begin{tabular}{|c|c|}
+    \hline
+      Feature & Contribution \\
+    \hline
+      Longitude & 0.7656 \\
+      Latitude & 0.2342 \\
+      cloudCover & 0.0001 \\
+    \hline
+    \end{tabular}
+    \label{tab:RF_contribution}
+    \end{center}
+\end{table}
+
+Group the data by location and check the yield finding that the number of unique yields not match that of locations, which means there are entries share the same yield. Look further into data, finding that the yield of a day is not the real yield of current day, but the yield of final yield. What's more, the locations from the same conunty also share the same yield. That derectly results in loctions' neighborhoods get same yields, and the algorithm can give the exact yield according to the yield. 
+
+\subsection{Overfitting in Random Forest}
+Simply remove longitude and latitude form data and run test again, get the learning curve shown by Fig.~\ref{cv1}. Clearly, it is not the "location" leads to the overfitting, but the structure of data.
+
+\begin{figure}[!htb]
+  \centering
+\subfloat[\label{cv1}]{%
+     \includegraphics[width=0.5\linewidth]{./figures/Learing Curve1.png}}
+\subfloat[\label{cv2}]{%
+      \includegraphics[width=0.5\linewidth]{./figures/Learing Curve2.png}}
+\hfill
+\subfloat[\label{cv3}]{%
+      \includegraphics[width=0.5\linewidth]{./figures/Learning Curve(Random Forest without Location and aggregation).png}}
+\subfloat[\label{cv4}]{%
+      \includegraphics[width=0.5\linewidth]{./figures/cv4.png}}
+\label{fig:lc} 
+\caption{Learning Curve}
+\end{figure}
+
+Reshape data to shrink the disparity between yield and data entries. For data in 2013, the origin shape is $(166685,16)$, means that there are 186 days every location for 16 features. Transform the shape of data in to $(901\times2960)$ and run test again get the learning curve shown in Fig.~\ref{cv2}. These two methods can't solve the overfitting problem.
+
+Try to aggregate the data to shrink the number of features. Calculate the mean values of ever 60 days and shrink features to 48, run test again and get the learning curve shown in Fig.~\ref{cv3}. There are some improvement after half of the dataset geting involved.
+
+Extract some indirect features from the origin features, calculate the minimum and maximum value of features in 30 days, minimum maximum NDVI in 30 days, mean temperature difference and variance e.t using rolling window method from pandas. Then, run test base on these indirect features get the learning curve in Fig.~\ref{cv4}.
+
+\subsection{LSTM}
 
 \section{Conclusion}
 
