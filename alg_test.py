@@ -15,7 +15,7 @@ from sklearn.svm import SVR
 
 def alg_test(X_train, y_train):
     cv_k = 5
-    cv_scoring = 'neg_mean_squared_error'
+    cv_scoring = 'r2'
     kf = KFold(n_splits=cv_k, shuffle=True)
     score_all = {}
 

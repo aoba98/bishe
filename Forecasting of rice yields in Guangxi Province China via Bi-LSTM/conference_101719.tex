@@ -230,46 +230,37 @@ Because the time complexity of SVR is more than twice of the data size\cite{clar
 The result of algorithm test is as shown in Table.~\ref{tab:result}, and RF shows a severe overfiting among all the algoritms. The prediction contribution of features shown in Table.~\ref{tab:RF_contribution}, it is obviously that yield prediction is dominated by loction.
 
 \begin{table}[htbp]
-  \caption{Performance of algrorithms on corp yield prediction}
+  \caption{Feature contribution fo RF}
   \begin{center}
   \begin{tabular}{|c|c|}
   \hline
-  Algorithm                                    & MSE      \\
+    Feature & Contribution \\
   \hline
-  Random Forest                                & 0.0048   \\
-  Random Forest(10K)                           & 0.1096   \\
-  KNN                                          & 60.6555  \\
-  Polynomial regression                        & 108.4011 \\
-  Polynomial regression with L2 regularization & 108.4891 \\
-  Linear regression                            & 179.4249 \\
-  Linear regression with L2 regularization     & 179.4339 \\
-  SVR(1K)                                      & 188.4630 \\
-  SVR RBF kernel(10K)                          & 193.5149 \\
-  SVR linear kernel(10K)                       & 197.0644 \\
-  Gradient boost                               & 231.4852 \\
-  KRR                                          & 333.6586 \\
+    Longitude & 0.7656 \\
+    Latitude & 0.2342 \\
+    cloudCover & 0.0001 \\
   \hline
-  \multicolumn{2}{l}{$^{\mathrm{a}}$ 10K: Extract 10K entries of data to reduce training time} \\
   \end{tabular}
-  \label{tab:result}
+  \label{tab:RF_contribution}
   \end{center}
 \end{table}
 
-\begin{table}[htbp]
-    \caption{Feature contribution fo RF}
-    \begin{center}
-    \begin{tabular}{|c|c|}
-    \hline
-      Feature & Contribution \\
-    \hline
-      Longitude & 0.7656 \\
-      Latitude & 0.2342 \\
-      cloudCover & 0.0001 \\
-    \hline
-    \end{tabular}
-    \label{tab:RF_contribution}
-    \end{center}
-\end{table}
+\begin{table*}[htbp]
+  \caption{Performance of algrorithms on corp yield prediction(Top5)}
+  \begin{center}
+    \begin{tabular}{|cc|cc|cc|cc|}
+      \hline
+      \multicolumn{2}{|c|}{Directly run}         & \multicolumn{2}{c|}{Data Reshape}         & \multicolumn{2}{c|}{Data Compressed}      & \multicolumn{2}{c|}{Data aggregated}      \\ \hline
+      \multicolumn{1}{|c|}{Algorithm} & R2 Error & \multicolumn{1}{c|}{Algorithm} & R2 Error & \multicolumn{1}{c|}{Algorithm} & R2 Error & \multicolumn{1}{c|}{Algorithm} & R2 Error \\ \hline
+      RFR                             & 0.8436   & RFR                            & 0.8983   & RFR                            & 0.8901   & RFR                            & 0.8361   \\
+      KNN                             & 0.7867   & KNN                            & 0.7867   & KNN                            & 0.7860   & KNN                            & 0.7835   \\
+      PRR                             & 0.6320   & LRR                            & 0.4954   & LR                             & 0.7710   & LR                             & 0.4303   \\
+      PR                              & 0.6258   & GBR                            & 0.0082   & LRR                            & 0.7303   & LRR                            & 0.4293   \\ \hline
+      \end{tabular}
+  \label{tab:result}
+  \end{center}
+\end{table*}
+
 
 Group the data by location and check the yield finding that the number of unique yields not match that of locations, which means there are entries share the same yield. Look further into data, finding that the yield of a day is not the real yield of current day, but the yield of final yield. What's more, the locations from the same conunty also share the same yield. That derectly results in loctions' neighborhoods get same yields, and the algorithm can give the exact yield according to the yield. 
 
@@ -298,8 +289,24 @@ Try to aggregate the data to shrink the number of features. Calculate the mean v
 Extract some indirect features from the origin features, calculate the minimum and maximum value of features in 30 days, minimum maximum NDVI in 30 days, mean temperature difference and variance e.t using rolling window method from pandas. Then, run test base on these indirect features get the learning curve in Fig.~\ref{cv4}.
 
 \subsection{LSTM}
+Use EarlyStopping callback function to alleviate overfiting and set training epoch to 1000. The process of training shown in %Fig.~\ref{fig:train}.
+
+\begin{figure*}[htbp]
+  \centerline{\includegraphics[width=\linewidth]{figures/lp.png}}
+  \caption{Training Process of LSTM}
+  \label{fig:train}
+\end{figure*}
+
+The MSE of both training and cross validation go lower acompanied with the incresment of taining epochs. This procedure has been run several times, it always triggers the EarlyStopping callback function at between 100 to 300 epochs. The final mean cross validation MSE for all runs is 12.3793 comparing to RF's 23.72, the performance of LSTM is 47.84\% better than RF which is quite accurate to forecast the yield of corps whose $R^2$ error is 83.61\% after solving the overfitting problem.
 
 \section{Conclusion}
+It is found that both LSTM and RF algorithm do well in prediction of agricultural production, but there are some difference between them.
+
+The implementation of LSTM is more comlpex, and many parameters need to be test and decided, and it is not easy to change the data's structure when there are new data get involved. There will be more time needed to config the model to meet the change of data either on features or recorded days. What's more, the training of a neural network consumes a lot of computing resources comparing to random forest. The random forest, on the contrary, less work needed to fit the change of data but more work needed to get pretreatment data, which alleviate the overfitting problem.
+
+\section{Future work}
+Some features which are crucial to the growing of crops, such as how farmers plant the crop, the condition of sow in a certain location e.t, are not involved to the models due to the lack of data source. The weather, undoubtedly, can influence the yield of corps, but some subjective behaviors can greatly improve the yield. The corps are not planted in an environment free of human intervention, water the crops when precipitation is in a low level is a natural behavior. If can get access such sort of data , the accuracy of prediction will be higher. 
+
 
 
 % \section*{References}
