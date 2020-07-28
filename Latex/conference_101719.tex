@@ -298,11 +298,23 @@ Try to aggregate the data to shrink the number of features. Calculate the mean v
 Extract some indirect features from the origin features, calculate the minimum and maximum value of features in 30 days, minimum maximum NDVI in 30 days, mean temperature difference and variance e.t using rolling window method from pandas. Then, run test base on these indirect features get the learning curve in Fig.~\ref{cv4}.
 
 \subsection{LSTM}
+Use EarlyStopping callback function to alleviate overfiting and set training epoch to 1000. The process of training shown in %Fig.~\ref{fig:train}.
+
+\begin{figure*}[htbp]
+  \centerline{\includegraphics[width=\linewidth]{figures/lp.png}}
+  \caption{Training Process of LSTM}
+  \label{fig:train}
+\end{figure*}
+
+The MSE of both training and cross validation go lower acompanied with the incresment of taining epochs. This procedure has been run several times, it always triggers the EarlyStopping callback function at between 100 to 300 epochs. The final mean cross validation MSE for all runs is 12.3793 comparing to RF's 23.72, the performance of LSTM is 47.84\% better than RF which is quite accurate to forecast the yield of corps whose $R^2$ error is 83.61\% after solving the overfitting problem.
 
 \section{Conclusion}
+It is found that both LSTM and RF algorithm do well in prediction of agricultural production, but there are some difference between them.
 
+The implementation of LSTM is more comlpex, and many parameters need to be test and decided, and it is not easy to change the data's structure when there are new data get involved. There will be more time needed to config the model to meet the change of data either on features or recorded days. What's more, the training of a neural network consumes a lot of computing resources comparing to random forest. The random forest, on the contrary, less work needed to fit the change of data but more work needed to get pretreatment data, which alleviate the overfitting problem.
 
-% \section*{References}
+\section{Future work}
+Some features which are crucial to the growing of crops, such as how farmers plant the crop, the condition of sow in a certain location e.t, are not involved to the models due to the lack of data source. The weather, undoubtedly, can influence the yield of corps, but some subjective behaviors can greatly improve the yield. The corps are not planted in an environment free of human intervention, water the crops when precipitation is in a low level is a natural behavior. If can get access such sort of data , the accuracy of prediction will be higher. 
 
 \bibliographystyle{IEEEtran}
 \bibliography{IEEEabrv,reference}
