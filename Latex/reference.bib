@@ -130,6 +130,7 @@ title = {{Crop yield prediction using deep neural networks}},
 volume = {10},
 year = {2019}
 }
+
 @techreport{Baruth,
 abstract = {Commission VIII, WG VIII/10 ABSTRACT: The objective of the Mars Crop Yield Forecasting Systems (MCYFS) is to provide precise, scientific, traceable independent and timely forecasts for the main crops yields at EU level. The forecasts and analysis are used since 2001 as a benchmark by analysts from DG-Agriculture and Rural Development in charge of food balance estimates. The system is supported by the use of Remote Sensing data, namely SPOT-VEGETATION, NOAA-AVHRR, MSG-SEVIRI and MODIS TERRA and in the future METOP AVHRR too. So a broad spectrum from low to medium resolution data at pan-European level is covered and historical time series go back to 1981 for NOAA and 1998 for SPOT VEGETATION. In order to work with the data operationally, processing chains have been setup to make the data consistent with our requirements concerning near real time delivery (3 days), spatial coverage (pan-Europe), projection and ten day time steps. Moreover tailored indicators like NDVI, fAPAR and DMP are derived. In case of available time-series, difference values of the indicators (e.g. relative or absolute differences) and frequency analysis of the indicators (e.g. position in historical range or distribution) are calculated. The data is explored at full resolution or unmixed related to landcover types and aggregated at administrative NUTS 2 level (profile analysis of time series). Special tools to inspect and distribute the data to external users have been developed as well. Furthermore, it is the objective to develop a strategy for an optimal use of the different sensors and thus derived indicators at different aggregation levels for the ingestion into the MCYFS. As a first step smoothing algorithms have to be applied to the time series to diminish noise effects and to retrieve continuous information. Thus, an algorithm based on Swets et al. (1999) is employed. Thereafter, so-called Chronos Key Indicators are derived from the smoothed time-series. Currently, a study is carried out to establish the link between these indicators and (1) state variables of the crop growth simulation (e.g., development stages), and (2) the forecasted yield/production.},
 annote = {传感器网络},
@@ -303,3 +304,121 @@ year = {2010}
   author={Clarke, Stella M and Griebsch, Jan H and Simpson, Timothy W},
   year={2005}
 }
+
+@article{fao,
+abstract = {FAO, Food and Agriculture Organization of the United Nations, 2015. Production of Chestnut by Countries. Statistics Division. http://faostat3.fao.org/browse/Q/QC/ E (accessed 21.03.15).},
+doi = {10.5860/choice.48-2430},
+issn = {0009-4978},
+journal = {Choice Reviews Online},
+mendeley-groups = {毕设},
+month = {jan},
+number = {05},
+pages = {48--2430--48--2430},
+publisher = {American Library Association},
+title = {{FAOSTAT}},
+volume = {48},
+year = {2011}
+}
+
+@misc{food&popu,
+mendeley-groups = {毕设},
+title = {{Goal 2 | Department of Economic and Social Affairs}},
+url = {https://sdgs.un.org/goals/goal2},
+urldate = {2020-07-28}
+}
+
+@techreport{ACF-nur,
+file = {::},
+mendeley-groups = {毕设},
+title = {{ACF-NUTRITION SECURITY POLICY}},
+url = {www.actioncontrelafaim.org}
+}
+
+@inproceedings{McBratney2005,
+abstract = {Precision Agriculture is advancing but not as fast as predicted 5 years ago. The development of proper decision-support systems for implementing precision decisions remains a major stumbling block to adoption. Other critical research issues are discussed, namely, insufficient recognition of temporal variation, lack of whole-farm focus, crop quality assessment methods, product tracking and environmental auditing. A generic research programme for precision agriculture is presented. A typology of agriculture countries is introduced and the potential of each type for precision agriculture discussed. {\textcopyright} 2005 Springer Science+Business Media Inc.},
+author = {McBratney, Alex and Whelan, Brett and Ancev, Tihomir and Bouma, Johan},
+booktitle = {Precision Agriculture},
+doi = {10.1007/s11119-005-0681-8},
+issn = {13852256},
+keywords = {Resource economics,Site-specific crop Management},
+mendeley-groups = {毕设},
+month = {feb},
+number = {1},
+pages = {7--23},
+publisher = {Springer},
+title = {{Future directions of precision agriculture}},
+url = {https://link.springer.com/article/10.1007/s11119-005-0681-8},
+volume = {6},
+year = {2005}
+}
+
+@article{MARS,
+author = {Baruth, Bettina and Royer, A. and Klisch, Anja and Genovese, Giampiero},
+year = {2008},
+month = {01},
+pages = {},
+title = {The use of remote sensing within the MARS crop yield monitoring system of the European Commission},
+volume = {37},
+journal = {The International Archives of the Photogrammetry, Remote Sensing and Spatial Information Sciences}
+}
+
+@techreport{good2011usda,
+  title={USDA corn and soybean acreage estimates and yield forecasts: dispelling myths and misunderstandings},
+  author={Good, Darrel L and Irwin, Scott H},
+  year={2011}
+}
+
+@article{Basso2013,
+abstract = {The following review paper presents an overview of the current crop yield forecasting methods and early warning systems for the global strategy to improve agricultural and rural statistics across the globe. Different sections describing simulation models, remote sensing, yield gap analysis, and methods to yield forecasting compose the manuscript.},
+archivePrefix = {arXiv},
+arxivId = {arXiv:1011.1669v3},
+author = {Basso, Bruno and Cammarano, Davide and Carfagna, Elisabetta},
+doi = {10.1017/CBO9781107415324.004},
+eprint = {arXiv:1011.1669v3},
+file = {:Users/jinkin/OneDrive/毕设/参考文献/Basso, Cammarano, Carfagna - 2013 - Review of Crop Yield Forecasting Methods and Early Warning Systems.pdf:pdf},
+isbn = {9788578110796},
+issn = {1098-6596},
+journal = {The First Meeting of the Scientific Advisory Committee of the Global Strategy to Improve Agricultural and Rural Statistics},
+mendeley-groups = {毕设},
+pages = {1--56},
+pmid = {25246403},
+title = {{Review of Crop Yield Forecasting Methods and Early Warning Systems}},
+year = {2013}
+}
+
+@techreport{You2017,
+abstract = {Agricultural monitoring, especially in developing countries, can help prevent famine and support humanitarian efforts. A central challenge is yield estimation, i.e., predicting crop yields before harvest. We introduce a scalable, accurate, and inexpensive method to predict crop yields using publicly available remote sensing data. Our approach improves existing techniques in three ways. First, we forego hand-crafted features traditionally used in the remote sensing community and propose an approach based on modern representation learning ideas. We also introduce a novel dimensionality reduction technique that allows us to train a Convolutional Neural Network or Long-short Term Memory network and automatically learn useful features even when labeled training data are scarce. Finally, we incorporate a Gaussian Process component to explicitly model the spatio-temporal structure of the data and further improve accuracy. We evaluate our approach on county-level soybean yield prediction in the U.S. and show that it outperforms competing techniques.},
+author = {You, Jiaxuan and Li, Xiaocheng and Low, Melvin and Lobell, David and Ermon, Stefano},
+booktitle = {Thirty-First AAAI Conference on Artificial Intelligence},
+file = {:Users/jinkin/OneDrive/毕设/参考文献/You et al. - 2017 - Deep Gaussian Process for Crop Yield Prediction Based on Remote Sensing Data.pdf:pdf},
+keywords = {Special Track on Computational Sustainability},
+mendeley-groups = {毕设},
+month = {feb},
+title = {{Deep Gaussian Process for Crop Yield Prediction Based on Remote Sensing Data}},
+url = {www.aaai.org},
+year = {2017}
+}
+
+@article{Matis1985,
+abstract = {This study proposes a methodology for forecasting crop yields at intermediate times in the growing season using Markov chain theory. A Markov chain is constructed, based on historical data, to provide forecast distributions of crop yield for various crop and soil moisture condition classes at selected times prior to harvest. Expected yield and the associated standard error are obtained for each condition class. The methodology is compared to a regression approach in which the independent variables are the various crop and soil moisture conditions. The Markov chain approach requires less stringent assumptions and provides more information than the regression approach. However, the potential loss of precision in the forecast using this approach requires separate evaluation for each application. A data base created by the CERES-Maize model, which simulates the growth and development of a corn crop, is used to demonstrate the development of the forecast yield distributions using the Markov chain approach. {\textcopyright} 1985.},
+author = {Matis, J. H. and Saito, T. and Grant, W. E. and Iwig, W. C. and Ritchie, J. T.},
+doi = {10.1016/0308-521X(85)90030-7},
+issn = {0308521X},
+journal = {Agricultural Systems},
+mendeley-groups = {毕设},
+month = {jan},
+number = {3},
+pages = {171--187},
+publisher = {Elsevier},
+title = {{A Markov chain approach to crop yield forecasting}},
+volume = {18},
+year = {1985}
+}
+
+@phdthesis{stephens1995crop,
+  title={Crop yield forecasting over large areas in Australia},
+  author={Stephens, David J},
+  year={1995},
+  school={Murdoch University}
+}
+
