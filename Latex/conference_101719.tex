@@ -72,10 +72,16 @@ email address or ORCID}
 
   The forecast of crop yield is an important part of modern agricultural technology. It can effectively predict agricultural output, which is able to help people adjust production methods in time and improve production efficiency. Many developed countries and regions have advanced agricultural yield forecasting system, such as Monitoring Agricultural Resources (MARS) of EU\cite{MARS}. MARS has been using remote sensing since 1988, which initially designed to apply the newly emerging space technologies for providing independent and timely information on crop areas and yields. 
   
-  Over the past few decades, regression algorithms and sensor technologies have developed rapidly with the advancement of computing hardware and theories, which directly leads to the emergence of more accurate algorithm of prediction. At the beginning, statistical-based models with probability theory or regression methods were widely used to implement yield forecasting\cite{Matis1985, stephens1995crop}. Since the explosive development of space technology and electronic industry, remote sensing and sensor network are utilized to farmland monitoring.  The data from remote sensing and sensor network have played an important role in the improvement of the prediction accuracy\cite{You2017, Baruth}. Recent years, the raise of deep learning has also boosted the development of crop yield forecasting. Many deep learning models have been applied to this area, which allows more complicated data can be processed rather than the simple weather data.
+  Over the past few decades, regression algorithms and sensor technologies have developed rapidly with the advancement of computing hardware and theories, which directly leads to the emergence of more accurate algorithm of prediction. At the beginning, statistical-based models with probability theory or regression methods were widely used to implement yield forecasting\cite{Matis1985, stephens1995crop}. Since the explosive development of space technology and electronic industry, remote sensing and sensor network are utilized to farmland monitoring.  The data from remote sensing and sensor network have played an important role in the improvement of the prediction accuracy\cite{You2017, Baruth}. Recent years, the raise of deep learning has also boosted the development of crop yield forecasting. Many deep learning models have been applied to this area, which allows more complicated data can be processed rather than the simple weather data. The process of this paper is shown in Fig.~\ref{fig:arch}.
   % 随着回归算法的发展，对其产生了积极的影响，然后写发展
   
-  
+  \begin{figure*}[!htb]
+    \centering
+    \includegraphics[width=\linewidth]{figures/arch.pdf}
+    \label{fig:arch} 
+    \caption{Prediction Process}
+\end{figure*}
+
   % Many developed countries and regions have advanced agricultural yield forecasting system, such as Monitoring Agricultural ResourceS(MARS) of EU\cite{MARS}. MARS has been using remote sensing since 1988, which initially designed to apply the newly emerging space technologies for providing independent and timely information on crop areas and yields. Since 1993, this activity has contributed to a more effective and efficient management of the Common Agricultural Policy (CAP) through the provision of a broader range of technical support services to DG Agriculture and Member-State Administrations. Since 2000, the expertise in crop yields has been applied outside the EU. Services have been developed to support EU aid and assistance policies and provide building blocks for a European capability for global agricultural monitoring and food security assessment. Crop yield forecasting is undertaken to provide monthly bulletins forecasting crop yields to support the EU's Common Agriculture Policy (CAP). Providing early warning of crop shortages or failure provides rapid information for EU development aid activities to support food insecure countries, as part of the JRC work on global food security.
 
   % 传统方法、章节安排
@@ -250,18 +256,18 @@ The result of algorithm test is as shown in Table.~\ref{tab:result}, and RF show
   \hline
   Algorithm                                    & MSE      \\
   \hline
-  Random Forest                                & 0.0048   \\
+  Random Forest \cite{liaw2002classification}                               & 0.0048   \\
   Random Forest(10K)                           & 0.1096   \\
-  KNN                                          & 60.6555  \\
-  Polynomial regression                        & 108.4011 \\
+  KNN \cite{peterson2009k}                                         & 60.6555  \\
+  Polynomial regression  \cite{theil1992rank}                      & 108.4011 \\
   Polynomial regression with L2 regularization & 108.4891 \\
-  Linear regression                            & 179.4249 \\
+  Linear regression \cite{vapnik2013nature}                           & 179.4249 \\
   Linear regression with L2 regularization     & 179.4339 \\
-  SVR(1K)                                      & 188.4630 \\
-  SVR RBF kernel(10K)                          & 193.5149 \\
-  SVR linear kernel(10K)                       & 197.0644 \\
-  Gradient boost                               & 231.4852 \\
-  KRR                                          & 333.6586 \\
+  SVR(1K) \cite{drucker1997support}                                     & 188.4630 \\
+  SVR RBF kernel(10K) \cite{cristianini2000introduction}                         & 193.5149 \\
+  SVR linear kernel(10K) \cite{cristianini2000introduction}                      & 197.0644 \\
+  Gradient boost \cite{ke2017lightgbm}                              & 231.4852 \\
+  KRR  \cite{saunders1998ridge}                                        & 333.6586 \\
   \hline
   \multicolumn{2}{l}{$^{\mathrm{a}}$ 10K: Extract 10K entries of data to reduce training time} \\
   \end{tabular}
@@ -312,23 +318,22 @@ Try to aggregate the data to shrink the number of features. Calculate the mean v
 Extract some indirect features from the origin features, calculate the minimum and maximum value of features in 30 days, minimum maximum NDVI in 30 days, mean temperature difference and variance e.t using rolling window method from pandas. Then, run test base on these indirect features get the learning curve in Fig.~\ref{cv4}.
 
 \subsection{LSTM}
-Use EarlyStopping callback function to alleviate overfitting and set training epoch to 1000. The process of training shown in %Fig.~\ref{fig:train}.
+Use EarlyStopping callback function to alleviate overfitting and set training epoch to 1000. The process of training shown in Fig.~\ref{fig:train}.
 
-\begin{figure*}[htbp]
+\begin{figure}[htbp]
   \centerline{\includegraphics[width=\linewidth]{figures/lp.png}}
   \caption{Training Process of LSTM}
   \label{fig:train}
-\end{figure*}
+\end{figure}
 
 The MSE of both training and cross validation go lower accompanied with the increment of training epochs. This procedure has been run several times, it always triggers the EarlyStopping callback function at between 100 to 300 epochs. The final mean cross validation MSE for all runs is 12.3793 comparing to RF's 23.72, the performance of LSTM is 47.84\% better than RF which is quite accurate to forecast the yield of corps whose $R^2$ error is 83.61\% after solving the overfitting problem.
 
-\section{Conclusion} \label{sec:con}
+\section{Conclusion and Future work} \label{sec:con}
 It is found that both LSTM and RF algorithm do well in prediction of agricultural production, but there are some difference between them.
 
 The implementation of LSTM is more complex, and many parameters need to be test and decided, and it is not easy to change the data's structure when there are new data get involved. There will be more time needed to config the model to meet the change of data either on features or recorded days. What's more, the training of a neural network consumes a lot of computing resources comparing to random forest. The random forest, on the contrary, less work needed to fit the change of data, but more work needed to get pretreatment data, which alleviate the overfitting problem.
 
-\section{Future work} \label{sec:fw}
-Some features which are crucial to the growing of crops, such as how farmers plant the crop, the condition of sow in a certain location e.t, are not involved to the models due to the lack of data source. The weather, undoubtedly, can influence the yield of corps, but some subjective behaviors can greatly improve the yield. The corps are not planted in an environment free of human intervention, water the crops when precipitation is in a low level is a natural behavior. If can get access such sort of data, the accuracy of prediction will be higher. 
+There are still some factors we do not consider due to the limitation of data. Some features which are crucial to the growing of crops, such as how farmers plant the crop, the condition of sow in a certain location e.t, are not involved to the models due to the lack of data source. The weather, undoubtedly, can influence the yield of corps, but some subjective behaviors can greatly improve the yield. The corps are not planted in an environment free of human intervention, water the crops when precipitation is in a low level is a natural behavior. If can get access such sort of data, the accuracy of prediction will be higher. 
 
 \bibliographystyle{IEEEtran}
 \bibliography{IEEEabrv,reference}
