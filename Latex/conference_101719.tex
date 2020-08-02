@@ -107,15 +107,15 @@ email address or ORCID}
 
 \section{Forecasting method} \label{sec:fm}
   \subsection{Data} 
-    Dataset includes data in winter wheat yield in U.S with local climate conditions in 2013 and 2014, which contains 150 counties from 5 states and has 26 features, 360042 entries.
+      The dataset includes data in winter wheat yield in the U.S with local climate conditions in 2013 and 2014, which contains 150 counties from 5 states and has 26 features, 360042 entries.
 
     \subsubsection{Missing items}
       There are 654 missing items in data, accounting for 1.81\% of the total data volume, among which 2013 accounts for 43.42\%. Deleting an entry with missing items may result in the decline of continuity due to the characteristics of crop growth. Filling to missing items with the nearest and most recent entry due to the continuity of climate data in both space and time. A single miss item being filled by its adjacent items, while continuous missing data can be filled from two ends to the middle one.
 
     \subsubsection{Abnormal data}
-      By looking at the data, apparent anomaly found in the yield. There are entries having nonzero yield with relatively short period of time from being seeded to harvest which was recorded by column \textit{DayInSeason}. 
+      By looking at the data, an apparent anomaly found in the yield. There are entries having nonzero yield with a relatively short period of time from being seeded to harvest which was recorded by column \textit{DayInSeason}.  
 
-      Fig.~\ref{1a} shows the distribution of duration between first record and the last in different locations, locations have 185 days of records account for 93.6\%. Therefore, delete data from locations whose planting duration less than 185 days. However, these positions not all were fully recorded for 185 days shown by Fig.~\ref{1c}, there are days not to be recorded for some reason. After all position with miss records being deleted, all the data had consistent planting duration shown by Fig.~\ref{1d}.
+      Fig.~\ref{1a} shows the distribution of duration between the first record and the last in different locations, locations have 185 days of records account for 93.6\%. Therefore, delete data from locations whose planting duration less than 185 days. However, these positions not all were fully recorded for 185 days shown by Fig.~\ref{1c}, there are days not to be recorded for some reason. After all positions with miss records being deleted, all the data had consistent planting duration shown by Fig.~\ref{1d}.
 
 
       \begin{figure} 
@@ -148,13 +148,13 @@ email address or ORCID}
             \includegraphics[width=0.45\linewidth]{./figures/data_locations.png}}
           \hfill
         \subfloat[\label{mapb}]{% TODO: replot figure 
-              \includegraphics[width=0.45\linewidth]{./figures/yield&loc.png}}
+              \includegraphics[width=0.45\linewidth]{./figures/map.png}}
         \label{fig:Map_visual} 
         \caption{(a)shows the location of all data being collected, yellow points represent locations monitored for two years which can be used for forecasting next year's yields via data of previous years. (b)shows the yield varying by locations}
       \end{figure*}
 
     \subsubsection{Feature selection}
-      There are significant multicollinearity between some features in the data, which can lead to errors and distortions in the results\cite{farrar1967multicollinearity}. By calculating the correlation coefficient between the features, finding that there are features with correlation higher than 90\% with another, some even reach 99\%. Table.~\ref{tab:correlation} shows the features correlation high than 90\%, these features accompanied with some other features unrelated to target such as \textit{State}, \textit{Date} e.t. 
+      There is significant multicollinearity between some features in the data, which can lead to errors and distortions in the results\cite{farrar1967multicollinearity}. By calculating the correlation coefficient between the features, finding that there are features with a correlation higher than 90\% with another, some even reach 99\%. Table.~\ref{tab:correlation} shows the features correlation high than 90\%, these features accompanied with some other features unrelated to target such as \textit{State}, \textit{Date} e.t.
       \begin{table}[htbp]
         \caption{Features correlation high than 90\%}
         \begin{center}
@@ -181,7 +181,7 @@ email address or ORCID}
 
   \subsection{Bi-LSTM Model}
     \subsubsection{LSTM}
-      Recurrent Neural Network is a kind of neural network that is good at processing time series data. It can well process task with continuous time and contextual relationship which is exactly in line with the characteristics of the crop growth. The connections existing between each layer make the network better in learning time series relations, but on the other hand, this leads to gradient explosion in backpropagation. \cite{hochreiter1997long}
+      Recurrent Neural Network is a kind of neural network that is good at processing time-series data. It can well process tasks with continuous-time and contextual relationships which is exactly in line with the characteristics of the crop growth. The connections existing between each layer make the network better in learning time series relations, but on the other hand, this leads to a gradient explosion in backpropagation. \cite{hochreiter1997long}
 
       \begin{figure}[htbp]
         \centerline{\includegraphics[width=0.7\linewidth]{figures/LSTM_struc.pdf}}
@@ -189,7 +189,7 @@ email address or ORCID}
         \label{fig:LSTM}
       \end{figure}
 
-      Fig.~\ref{fig:LSTM} shows the structure of LSTM and RNN. The structure of t-th RNN node is on the first image, $x^t$ is the input of t-th node, $h^{t-1}$ is the input of t-th node recived from $t-1$th node, $y^t$is the output and $h^t$ is the output which transfer to next node, while LSTM have two more states $c^t$(cell state) and $h^t$(hidden state), state $c$ in LSTM is the counterpart of state $h$ in RNN, and normally, state $c$ changes slowly in front propagation which typically to add a number to $c^{t-1}$. On the contrary, $h^t$ changes drastically.
+      Fig.~\ref{fig:LSTM} shows the structure of LSTM and RNN. The structure of t-th RNN node is on the first image, $x^t$ is the input of t-th node, $h^{t-1}$ is the input of t-th node received from $t-1$th node, $y^t$is the output and $h^t$ is the output which transfer to next node, while LSTM have two more states $c^t$(cell state) and $h^t$(hidden state), state $c$ in LSTM is the counterpart of state $h$ in RNN, and normally, state $c$ changes slowly in front propagation which typically to add a number to $c^{t-1}$. On the contrary, $h^t$ changes drastically.
 
       \begin{figure}[htbp]
         \centerline{\includegraphics[width=0.7\linewidth]{figures/LSTM_node.pdf}}
@@ -221,10 +221,10 @@ email address or ORCID}
         \label{eq:ct2}
       \end{equation}
 
-      All these features of LSTM meet the crop growing process, there are weather fluctuations or natural disasters in short time, while there are stable natural conditions over a long period of time.
+      All these features of LSTM meet the crop growing process, there are weather fluctuations or natural disasters in a short time, while there are stable natural conditions over a long period..
 
     \subsubsection{Bi-LSTM Model}
-      As shown in Fig.~\ref{fig:model}, build Bi-LSTM network using Keras and Tensorflow, there are two parts in model. The left part is three layers of stacked Bi-LSTM use to predict the yield by the weather data, right part use stacked fully connected network to link the county and the predicted yield.
+      As shown in Fig.~\ref{fig:model}, build a Bi-LSTM network using Keras and Tensorflow, there are two parts in the model. The left part is three layers of stacked Bi-LSTM use to predict the yield by the weather data, right part use stacked fully connected network to link the county and the predicted yield.
 
       \begin{figure}[htbp]
         \centerline{\includegraphics[width=\linewidth]{figures/Model_figure.png}}
@@ -235,19 +235,19 @@ email address or ORCID}
 
 \section{Experiment} \label{sec:ex}
 \subsection{Test method}
-Before testing, use \textit{Min-Max} method shown by (\ref{eq:standarlize}) to standarlize data and shuffle data due to the data is arranged by location. If not doing so, there will be data from new locations in train data while splitting the test set and train set.
+  Before testing, use the \textit{Min-Max} method shown by (\ref{eq:standarlize}) to standardize data and shuffle data due to the data is arranged by location. If not doing so, there will be data from new locations in train data while splitting the test set and train set.
 
 \begin{equation}
   x_i := \frac{x_i-\min \left( x_i \right)}{\max \left( x_i \right) -\min \left( x_i \right)}
 \label{eq:standarlize}
 \end{equation}
 
-Because the time complexity of SVR is more than twice of the data size\cite{clarke2005analysis}, extract 10000 entries of data in order to reduce time, randomly extract and run multiple times to avoid accidental exceptions caused by extraction.
+  Because the time complexity of SVR is more than twice the data size\cite{clarke2005analysis}, extract 10000 entries of data to reduce time, randomly extract, and run multiple times to avoid accidental exceptions caused by extraction.
 
 
 
 \subsection{Test Result}
-The result of algorithm test is as shown in Table.~\ref{tab:result}, and RF shows a severe overfitting among all the algorithms. The prediction contribution of features shown in Table.~\ref{tab:RF_contribution}, it is obviously that yield prediction is dominated by location.
+  The result of the algorithm test is as shown in Table.~\ref{tab:result} and RF shows severe overfitting among all the algorithms. The prediction contribution of features shown in Table.~\ref{tab:RF_contribution}, it is obvious that yield prediction is dominated by location.
 
 \begin{table}[htbp]
   \caption{Performance of algorithms on crop yield prediction}
@@ -291,10 +291,10 @@ The result of algorithm test is as shown in Table.~\ref{tab:result}, and RF show
     \end{center}
 \end{table}
 
-Group the data by location and check the yield finding that the number of unique yields not match that of locations, which means there are entries share the same yield. Look further into data, finding that the yield of a day is not the real yield of current day, but the yield of final yield. What's more, the locations from the same county also share the same yield. That directly results in locations' neighborhoods get same yields, and the algorithm can give the exact yield according to the yield. 
+  Group the data by location and check the yield finding that the number of unique yields does not match that of locations, which means there are entries share the same yield. Look further into data, finding that the yield of a day is not the real yield of the current day, but the yield of final yield. What's more, the locations from the same county also share the same yield. That directly results in locations' neighborhoods get the same yields, and the algorithm can give the exact yield according to the yield.  
 
 \subsection{Overfitting in Random Forest}
-Simply remove longitude and latitude form data and run test again, get the learning curve shown by Fig.~\ref{cv1}. Clearly, it is not the "location" leads to the overfitting, but the structure of data.
+  Simply remove longitude and latitude form data and run the test again, get the learning curve shown by Fig.~\ref{cv1}. It is not the "location" leads to the overfitting, but the structure of data.
 
 \begin{figure}[!htb]
   \centering
@@ -308,17 +308,17 @@ Simply remove longitude and latitude form data and run test again, get the learn
 \subfloat[\label{cv4}]{%
       \includegraphics[width=0.5\linewidth]{./figures/cv4.png}}
 % \label{fig:lc} 
-\caption{Learning Curve of Random Forest. (a) generated by the origin data, obviously there's severe overfitting. (b) generated by setting data of different day to a new feature, performance get worse. (c) generated by compress the data , the CV-score gets better. (d) generated by feature selection, the overfitting problem being solved}
+\caption{Learning Curve of Random Forest. (a) generated by the origin data, obviously, there's severe overfitting. (b) generated by setting data of different days to a new feature, performance gets worse. (c) generated by compress the data, the CV-score gets better. (d) generated by feature selection, the overfitting problem being solved}
 \end{figure}
 
-Reshape data to shrink the disparity between yield and data entries. For data in 2013, the origin shape is $(166685,16)$, means that there are 186 days every location for 16 features. Transform the shape of data in to $(901\times2960)$ and run test again get the learning curve shown in Fig.~\ref{cv2}. These two methods can't solve the overfitting problem.
+  Reshape data to shrink the disparity between yield and data entries. For data in 2013, the original shape is $(166685,16)$, which means that there are 186 days every location for 16 features. Transform the shape of data into $(901\times2960)$ and run the test again to get the learning curve shown in Fig.~\ref{cv2}. These two methods can't solve the overfitting problem.
 
-Try to aggregate the data to shrink the number of features. Calculate the mean values of ever 60 days and shrink features to 48, run test again and get the learning curve shown in Fig.~\ref{cv3}. There are some improvement after half of the dataset getting involved.
+  Try to aggregate the data to shrink the number of features. Calculate the mean values of ever 60 days and shrink features to 48, run the test again, and get the learning curve shown in Fig.~\ref{cv3}. There is some improvement after half of the dataset getting involved.
 
-Extract some indirect features from the origin features, calculate the minimum and maximum value of features in 30 days, minimum maximum NDVI in 30 days, mean temperature difference and variance e.t using rolling window method from pandas. Then, run test base on these indirect features get the learning curve in Fig.~\ref{cv4}.
+  Extract some indirect features from the origin features, calculate the minimum and maximum value of features in 30 days, minimum maximum NDVI in 30 days, mean temperature difference, and variance e.t using a rolling window method from pandas. Then, run the test base on these indirect features get the learning curve in Fig.~\ref{cv4}.
 
 \subsection{LSTM}
-Use EarlyStopping callback function to alleviate overfitting and set training epoch to 1000. The process of training shown in Fig.~\ref{fig:train}.
+Use the EarlyStopping callback function to alleviate overfitting and set training epoch to 1000. The process of training shown in Fig.~\ref{fig:train}.
 
 \begin{figure}[htbp]
   \centerline{\includegraphics[width=\linewidth]{figures/lp.png}}
@@ -326,14 +326,14 @@ Use EarlyStopping callback function to alleviate overfitting and set training ep
   \label{fig:train}
 \end{figure}
 
-The MSE of both training and cross validation go lower accompanied with the increment of training epochs. This procedure has been run several times, it always triggers the EarlyStopping callback function at between 100 to 300 epochs. The final mean cross validation MSE for all runs is 12.3793 comparing to RF's 23.72, the performance of LSTM is 47.84\% better than RF which is quite accurate to forecast the yield of corps whose $R^2$ error is 83.61\% after solving the overfitting problem.
+The MSE of both training and cross-validation go lower accompanied by the increment of training epochs. This procedure has been run several times, it always triggers the EarlyStopping callback function at between 100 to 300 epochs. The final mean cross-validation MSE for all runs is 12.3793 comparing to RF's 23.72, the performance of LSTM is 47.84\% better than RF which is quite accurate to forecast the yield of corps whose $R^2$ error is 83.61\% after solving the overfitting problem.
 
 \section{Conclusion and Future work} \label{sec:con}
-It is found that both LSTM and RF algorithm do well in prediction of agricultural production, but there are some difference between them.
+It is found that both LSTM and RF algorithms do well in the prediction of agricultural production, but there is some difference between them.
 
-The implementation of LSTM is more complex, and many parameters need to be test and decided, and it is not easy to change the data's structure when there are new data get involved. There will be more time needed to config the model to meet the change of data either on features or recorded days. What's more, the training of a neural network consumes a lot of computing resources comparing to random forest. The random forest, on the contrary, less work needed to fit the change of data, but more work needed to get pretreatment data, which alleviate the overfitting problem.
+The implementation of LSTM is more complex, and many parameters need to be tested and decided, and it is not easy to change the data's structure when there are new data get involved. There will be more time needed to config the model to meet the change of data either on features or recorded days. What's more, the training of a neural network consumes a lot of computing resources comparing to a random forest. The random forest, on the contrary, less work needed to fit the change of data, but more work needed to get pretreatment data, which alleviates the overfitting problem.
 
-There are still some factors we do not consider due to the limitation of data. Some features which are crucial to the growing of crops, such as how farmers plant the crop, the condition of sow in a certain location e.t, are not involved to the models due to the lack of data source. The weather, undoubtedly, can influence the yield of corps, but some subjective behaviors can greatly improve the yield. The corps are not planted in an environment free of human intervention, water the crops when precipitation is in a low level is a natural behavior. If can get access such sort of data, the accuracy of prediction will be higher. 
+There are still some factors we do not consider due to the limitation of data. Some features which are crucial to the growth of crops, such as how farmers plant the crop, the condition of the sow in a certain location e.t, are not involved in the models due to the lack of data source. The weather, undoubtedly, can influence the yield of corps, but some subjective behaviors can greatly improve the yield. The corps is not planted in an environment free of human intervention, water the crops when precipitation is at a low level is a natural behavior. If can get access such sort of data, the accuracy of prediction will be higher.  
 
 \bibliographystyle{IEEEtran}
 \bibliography{IEEEabrv,reference}
