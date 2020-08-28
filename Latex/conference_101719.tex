@@ -1,4 +1,4 @@
-\documentclass[conference]{IEEEtran}
+\documentclass[conference, a4paper]{IEEEtran}
 \IEEEoverridecommandlockouts
 % The preceding line is only needed to identify funding in the first footnote. If that is unneeded, please comment it out.
 \usepackage{cite}
@@ -15,52 +15,41 @@
 \usepackage[caption=false, font=footnotesize]{subfig}
 \fi
 
+\addtolength{\topmargin}{+0.12cm}
+\columnsep 0.24in
 \begin{document}
 
-\title{The performance of regression algorithms and neural network in wheat yield forecasting in U.S}
+\title{Wheat Yield Forecasting using Regression Algorithms and Neural Network}
 
-\author{\IEEEauthorblockN{1\textsuperscript{st} Given Name Surname}
-\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
-\textit{name of organization (of Aff.)}\\
-City, Country \\
-email address or ORCID}
+\author{\IEEEauthorblockN{Cheng Dai}
+\IEEEauthorblockA{\textit{School of Information and Communication Engineering } \\
+\textit{University of Electronic Science and Technology of China}\\
+Chengdu, China \\
+daichengzyw@gmail.com}
 \and
-\IEEEauthorblockN{2\textsuperscript{nd} Given Name Surname}
-\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
-\textit{name of organization (of Aff.)}\\
-City, Country \\
-email address or ORCID}
+\IEEEauthorblockN{Yinqin Huang}
+\IEEEauthorblockA{\textit{School of Information and Communication Engineering,} \\
+\textit{University of Electronic Science and Technology of China}\\
+Chengdu, China  \\
+hyinq@hotmail.com}
 \and
-\IEEEauthorblockN{3\textsuperscript{rd} Given Name Surname}
-\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
-\textit{name of organization (of Aff.)}\\
-City, Country \\
-email address or ORCID}
+\IEEEauthorblockN{Minghao Ni}
+\IEEEauthorblockA{\textit{School of Information and Communication Engineering} \\
+\textit{University of Electronic Science and Technology of China}\\
+Chengdu, China \\
+845101809@qq.com}
 \and
-\IEEEauthorblockN{4\textsuperscript{th} Given Name Surname}
-\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
-\textit{name of organization (of Aff.)}\\
-City, Country \\
-email address or ORCID}
-\and
-\IEEEauthorblockN{5\textsuperscript{th} Given Name Surname}
-\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
-\textit{name of organization (of Aff.)}\\
-City, Country \\
-email address or ORCID}
-\and
-\IEEEauthorblockN{6\textsuperscript{th} Given Name Surname}
-\IEEEauthorblockA{\textit{dept. name of organization (of Aff.)} \\
-\textit{name of organization (of Aff.)}\\
-City, Country \\
-email address or ORCID}
+\IEEEauthorblockN{Xingang Liu*}
+\IEEEauthorblockA{\textit{School of Information and Communication Engineering} \\
+\textit{University of Electronic Science and Technology of China}\\
+Chengdu, China \\
+hanksliu@uestc.edu.cn}
 }
 
 \maketitle
 
 \begin{abstract}
-  With the rapid growth of the population and the development of economy, the demand for food production by people all over the world are significantly increasing. However, under the circumstance that the cultivated land area has not expanded in recent ten years, a feasible way to raise the total production of crops is to improve the yield per unit area. This requires accurate yield forecasting algorithms by monitoring status of crops to suggest farmers how to cultivate the crops better. To pick out the algorithms with best performance in predicting the agricultural yield, this paper compares several regression algorithms within the current datasets. The experimental results illustrate that random forest and Bi-LSTM model both have high metrics on production predicting and their accuracy reaches 85\% higher after solving the overfitting problem. Therefore, these two algorithms are prior choices to implement crop yield forecasting.
-  % 实验的结果还需要改
+  This paper considers the crop yield forecasting problem base on the wheat yield dataset of the U.S. To provide advice for farmers to raise the per unit area yield under the circumstance that the demand for food production are significantly increasing while the cultivated land area not expanded in recent decades, we compose a Bi-LSTM model consists of 3 stacked Bi-LSTM layers to predict wheat yield and test common used regression algorithms on the same dataset which have been preprocessed including the processing of filling in the missing items, dropping abnormal data and feature selection. The result shows that the Bi-LSTM model's $R^2$ score is 0.85 which outperforms the other algorithms. This model can also avoid overfitting problem which is commonly found in other regression algorithms. 
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -70,23 +59,19 @@ email address or ORCID}
 \section{Introduction}
   The food issue has always been a hot topic and it directly affects many aspects of people's lives. With the explosive growth of the world population, countries all over the world are exploring methods to grow crops with less natural resource consumption while increasing production under the guarantee of environmental protection. In such situation, the precision and intelligence of agriculture are becoming increasingly important. Therefore, researchers have focused on the collection, combination and processing of external information such as climate, satellites and geography in recent years. Such researches may improve modern agricultural technology and also help increase agricultural yield and quality.
 
-  The forecast of crop yield is an important part of modern agricultural technology. It can effectively predict agricultural output, which is able to help people adjust production methods in time and improve production efficiency. Many developed countries and regions have advanced agricultural yield forecasting system, such as Monitoring Agricultural Resources (MARS) of EU\cite{MARS}. MARS has been using remote sensing since 1988, which initially designed to apply the newly emerging space technologies for providing independent and timely information on crop areas and yields. 
+  The forecast of crop yield is an important part of modern agricultural technology. It can effectively predict agricultural output, which is able to help people adjust production methods in time and improve production efficiency. Many developed countries and regions have advanced agricultural yield forecasting system, such as Monitoring Agricultural Resources (MARS) of EU. MARS has been using remote sensing since 1988, which initially designed to apply the newly emerging space technologies for providing independent and timely information on crop areas and yields. 
   
   Over the past few decades, regression algorithms and sensor technologies have developed rapidly with the advancement of computing hardware and theories, which directly leads to the emergence of more accurate algorithm of prediction. At the beginning, statistical-based models with probability theory or regression methods were widely used to implement yield forecasting\cite{Matis1985, stephens1995crop}. Since the explosive development of space technology and electronic industry, remote sensing and sensor network are utilized to farmland monitoring.  The data from remote sensing and sensor network have played an important role in the improvement of the prediction accuracy\cite{You2017, Baruth}. Recent years, the raise of deep learning has also boosted the development of crop yield forecasting. Many deep learning models have been applied to this area, which allows more complicated data can be processed rather than the simple weather data. The process of this paper is shown in Fig.~\ref{fig:arch}.
   % 随着回归算法的发展，对其产生了积极的影响，然后写发展
-  
+
+  In this paper, we test a number of algorithms including linear regression, polynomial regression, random forest, support vector machine, gradient boosting decision tree and kernel ridge regression KNN with weather data and wheat yield from 1895 different plant locations in 2013 and 2014. Meanwhile we solve the overﬁtting problems to avoid abnormal high performance in prediction. A deep Bi-LSTM model which is constructed by 3 stacked LSTM layers is also applied to predict crop yield and the results are compared with conventional algorithms. Finally, we obtain the best methods to implement yield forecasting. The rest of the paper is organized as follows. Section.~\ref{sec:RW} introduces the common used data and methods in crop yield prediction. Section.~\ref{sec:fm} explains the method of data processing and presents proposed Bi-LSTM model. In Section.~\ref{sec:ex}, experiment results are revealed and we discuss its feasibility and advantages. Finally, a conclusion is given about our method and future work.
+
   \begin{figure*}[!htb]
     \centering
     \includegraphics[width=\linewidth]{figures/arch.pdf}
     \label{fig:arch} 
-    \caption{Prediction Process}
-\end{figure*}
-
-  % Many developed countries and regions have advanced agricultural yield forecasting system, such as Monitoring Agricultural ResourceS(MARS) of EU\cite{MARS}. MARS has been using remote sensing since 1988, which initially designed to apply the newly emerging space technologies for providing independent and timely information on crop areas and yields. Since 1993, this activity has contributed to a more effective and efficient management of the Common Agricultural Policy (CAP) through the provision of a broader range of technical support services to DG Agriculture and Member-State Administrations. Since 2000, the expertise in crop yields has been applied outside the EU. Services have been developed to support EU aid and assistance policies and provide building blocks for a European capability for global agricultural monitoring and food security assessment. Crop yield forecasting is undertaken to provide monthly bulletins forecasting crop yields to support the EU's Common Agriculture Policy (CAP). Providing early warning of crop shortages or failure provides rapid information for EU development aid activities to support food insecure countries, as part of the JRC work on global food security.
-
-  % 传统方法、章节安排
-
-  In this paper, we test a number of algorithms including linear regression, polynomial regression, random forest, support vector machine, gradient boosting decision tree and kernel ridge regression KNN with weather data and wheat yield from 1895 different plant locations in 2013 and 2014. Meanwhile we solve the overﬁtting problems to avoid abnormal high performance in prediction. A deep Bi-LSTM model which is constructed by 3 stacked LSTM layers is also applied to predict crop yield and the results are compared with conventional algorithms. Finally, we obtain the best methods to implement yield forecasting. The rest of the paper is organized as follows. Section.~\ref{sec:RW} introduces the common used data and methods in crop yield prediction. Section.~\ref{sec:fm} explains the method of data processing and presents proposed Bi-LSTM model. In Section.~\ref{sec:ex}, experiment results are revealed and we discuss its feasibility and advantages. Finally, a conclusion is given about our method and future work.
+    \caption{The flowchart of prediction process}
+  \end{figure*}
 
 \section{Related works} \label{sec:RW}
 
@@ -106,7 +91,7 @@ email address or ORCID}
 
 
 \section{Forecasting method} \label{sec:fm}
-  \subsection{Data} 
+  \subsection{Data Preprocessing} 
       The dataset includes data in winter wheat yield in the U.S with local climate conditions in 2013 and 2014, which contains 150 counties from 5 states and has 26 features, 360042 entries.
 
     \subsubsection{Missing items}
@@ -197,8 +182,6 @@ email address or ORCID}
         \label{fig:LSTM2}
       \end{figure}
 
-      For a LSTM node shown in Fig.~\ref{fig:LSTM2}, four states $f_t$(forget gate), $i_t$(input gate), $c_t$(current state) and $o_t$(output gate) are generated by concating $x^t$ and $h^{t-1}$ via (\ref{eq:gate}). Forget gate $f_t$ control the remain of information transtered from $c_{t-1}$, $[h_{t-1}, x_t]$  means to concat vector $h_{t-1}$ and vector $x_t$, $w_f$ and $b_f$ are the weight and bias of forget gate $f_t$, $\sigma$ is the Sigmoid activate function, expression of Sigmoid is (\ref{eq:sigmoid}).
-
       \begin{equation}
         \begin{cases}	f_t=\sigma \left( w_f\cdot \left[ h_{t-1},x_t \right] +b_f \right)\\	i_t=\sigma \left( w_i\cdot \left[ h_{t-1},x_t \right] +b_i \right)\\	o_t=\sigma \left( w_o\cdot \left[ h_{t-1},x_t \right] +b_i \right)\\\end{cases}
         \label{eq:gate}
@@ -208,6 +191,9 @@ email address or ORCID}
         \sigma \left( x \right) =\frac{1}{1+e^{-x}}
         \label{eq:sigmoid}
       \end{equation}
+      For a LSTM node shown in Fig.~\ref{fig:LSTM2}, four states $f_t$(forget gate), $i_t$(input gate), $c_t$(current state) and $o_t$(output gate) are generated by concating $x^t$ and $h^{t-1}$ via (\ref{eq:gate}). Forget gate $f_t$ control the remain of information transtered from $c_{t-1}$, $[h_{t-1}, x_t]$  means to concat vector $h_{t-1}$ and vector $x_t$, $w_f$ and $b_f$ are the weight and bias of forget gate $f_t$, $\sigma$ is the Sigmoid activate function, expression of Sigmoid is (\ref{eq:sigmoid}).
+
+
 
       To calculate $c_t$, the input state $\widetilde{c_t}$ are needed to be calculate first. Use activate function $\tanh$ via (\ref{eq:ct1}), (\ref{eq:ct2}) and (\ref{eq:gate}) to calculate $c_t$, the $\odot$ in (\ref{eq:ct2}) means corresponding element multiplication.
 
@@ -227,7 +213,7 @@ email address or ORCID}
       As shown in Fig.~\ref{fig:model}, build a Bi-LSTM network using Keras and Tensorflow, there are two parts in the model. The left part is three layers of stacked Bi-LSTM use to predict the yield by the weather data, right part use stacked fully connected network to link the county and the predicted yield.
 
       \begin{figure}[htbp]
-        \centerline{\includegraphics[width=\linewidth]{figures/Model_figure.png}}
+        \centerline{\includegraphics[width=0.4\linewidth]{figures/Model_figure.png}}
         \caption{Bi-LSTM Model}
         \label{fig:model}
       \end{figure}
@@ -237,10 +223,10 @@ email address or ORCID}
 \subsection{Test method}
   Before testing, use the \textit{Min-Max} method shown by (\ref{eq:standarlize}) to standardize data and shuffle data due to the data is arranged by location. If not doing so, there will be data from new locations in train data while splitting the test set and train set.
 
-\begin{equation}
-  x_i := \frac{x_i-\min \left( x_i \right)}{\max \left( x_i \right) -\min \left( x_i \right)}
-\label{eq:standarlize}
-\end{equation}
+  \begin{equation}
+    x_i := \frac{x_i-\min \left( x_i \right)}{\max \left( x_i \right) -\min \left( x_i \right)}
+  \label{eq:standarlize}
+  \end{equation}
 
   Because the time complexity of SVR is more than twice the data size\cite{clarke2005analysis}, extract 10000 entries of data to reduce time, randomly extract, and run multiple times to avoid accidental exceptions caused by extraction.
 
@@ -249,91 +235,87 @@ email address or ORCID}
 \subsection{Test Result}
   The result of the algorithm test is as shown in Table.~\ref{tab:result} and RF shows severe overfitting among all the algorithms. The prediction contribution of features shown in Table.~\ref{tab:RF_contribution}, it is obvious that yield prediction is dominated by location.
 
-\begin{table}[htbp]
-  \caption{Performance of algorithms on crop yield prediction}
-  \begin{center}
-  \begin{tabular}{|c|c|}
-  \hline
-  Algorithm                                    & MSE      \\
-  \hline
-  Random Forest \cite{liaw2002classification}                               & 0.0048   \\
-  Random Forest(10K)                           & 0.1096   \\
-  KNN \cite{peterson2009k}                                         & 60.6555  \\
-  Polynomial regression  \cite{theil1992rank}                      & 108.4011 \\
-  Polynomial regression with L2 regularization & 108.4891 \\
-  Linear regression \cite{vapnik2013nature}                           & 179.4249 \\
-  Linear regression with L2 regularization     & 179.4339 \\
-  SVR(1K) \cite{drucker1997support}                                     & 188.4630 \\
-  SVR RBF kernel(10K) \cite{cristianini2000introduction}                         & 193.5149 \\
-  SVR linear kernel(10K) \cite{cristianini2000introduction}                      & 197.0644 \\
-  Gradient boost \cite{ke2017lightgbm}                              & 231.4852 \\
-  KRR  \cite{saunders1998ridge}                                        & 333.6586 \\
-  \hline
-  \multicolumn{2}{l}{$^{\mathrm{a}}$ 10K: Extract 10K entries of data to reduce training time} \\
-  \end{tabular}
-  \label{tab:result}
-  \end{center}
-\end{table}
-
-\begin{table}[htbp]
-    \caption{Feature contribution of RF}
+  \begin{table}[htbp]
+    \caption{Performance of algorithms on crop yield prediction}
     \begin{center}
     \begin{tabular}{|c|c|}
     \hline
-      Feature & Contribution \\
+    Algorithm                                    & MSE      \\
     \hline
-      Longitude & 0.7656 \\
-      Latitude & 0.2342 \\
-      cloudCover & 0.0001 \\
+    Random Forest \cite{liaw2002classification}                               & 0.0048   \\
+    Random Forest(10K)                           & 0.1096   \\
+    KNN \cite{peterson2009k}                                         & 60.6555  \\
+    Polynomial regression  \cite{theil1992rank}                      & 108.4011 \\
+    Polynomial regression with L2 regularization & 108.4891 \\
+    Linear regression \cite{vapnik2013nature}                           & 179.4249 \\
+    Linear regression with L2 regularization     & 179.4339 \\
+    SVR(1K) \cite{drucker1997support}                                     & 188.4630 \\
+    SVR RBF kernel(10K) \cite{cristianini2000introduction}                         & 193.5149 \\
+    SVR linear kernel(10K) \cite{cristianini2000introduction}                      & 197.0644 \\
+    Gradient boost \cite{ke2017lightgbm}                              & 231.4852 \\
+    KRR  \cite{saunders1998ridge}                                        & 333.6586 \\
     \hline
+    \multicolumn{2}{l}{$^{\mathrm{a}}$ 10K: Extract 10K entries of data to reduce training time} \\
     \end{tabular}
-    \label{tab:RF_contribution}
+    \label{tab:result}
     \end{center}
-\end{table}
+  \end{table}
+
+  \begin{table}[htbp]
+      \caption{Feature contribution of RF}
+      \begin{center}
+      \begin{tabular}{|c|c|}
+      \hline
+        Feature & Contribution \\
+      \hline
+        Longitude & 0.7656 \\
+        Latitude & 0.2342 \\
+        cloudCover & 0.0001 \\
+      \hline
+      \end{tabular}
+      \label{tab:RF_contribution}
+      \end{center}
+  \end{table}
 
   Group the data by location and check the yield finding that the number of unique yields does not match that of locations, which means there are entries share the same yield. Look further into data, finding that the yield of a day is not the real yield of the current day, but the yield of final yield. What's more, the locations from the same county also share the same yield. That directly results in locations' neighborhoods get the same yields, and the algorithm can give the exact yield according to the yield.  
 
 \subsection{Overfitting in Random Forest}
   Simply remove longitude and latitude form data and run the test again, get the learning curve shown by Fig.~\ref{cv1}. It is not the "location" leads to the overfitting, but the structure of data.
 
-\begin{figure}[!htb]
-  \centering
-\subfloat[\label{cv1}]{%
-     \includegraphics[width=0.5\linewidth]{./figures/Learing Curve1.png}}
-\subfloat[\label{cv2}]{%
-      \includegraphics[width=0.5\linewidth]{./figures/Learing Curve2.png}}
-\hfill
-\subfloat[\label{cv3}]{%
-      \includegraphics[width=0.5\linewidth]{./figures/Learing_Curve3.png}}
-\subfloat[\label{cv4}]{%
-      \includegraphics[width=0.5\linewidth]{./figures/cv4.png}}
-% \label{fig:lc} 
-\caption{Learning Curve of Random Forest. (a) generated by the origin data, obviously, there's severe overfitting. (b) generated by setting data of different days to a new feature, performance gets worse. (c) generated by compress the data, the CV-score gets better. (d) generated by feature selection, the overfitting problem being solved}
-\end{figure}
+  \begin{figure}[!htb]
+    \centering
+  \subfloat[\label{cv1}]{%
+      \includegraphics[width=0.5\linewidth]{./figures/Learing Curve1.png}}
+  \subfloat[\label{cv2}]{%
+        \includegraphics[width=0.5\linewidth]{./figures/Learing Curve2.png}}
+  \hfill
+  \subfloat[\label{cv3}]{%
+        \includegraphics[width=0.5\linewidth]{./figures/Learing_Curve3.png}}
+  \subfloat[\label{cv4}]{%
+        \includegraphics[width=0.5\linewidth]{./figures/cv4.png}}
+  % \label{fig:lc} 
+    \caption{Learning Curve of Random Forest. (a) generated by the origin data, obviously, there's severe overfitting. (b) generated by setting data of different days to a new feature, performance gets worse. (c) generated by compress the data, the CV-score gets better. (d) generated by feature selection, the overfitting problem being solved}
+  \end{figure}
 
   Reshape data to shrink the disparity between yield and data entries. For data in 2013, the original shape is $(166685,16)$, which means that there are 186 days every location for 16 features. Transform the shape of data into $(901\times2960)$ and run the test again to get the learning curve shown in Fig.~\ref{cv2}. These two methods can't solve the overfitting problem.
 
   Try to aggregate the data to shrink the number of features. Calculate the mean values of ever 60 days and shrink features to 48, run the test again, and get the learning curve shown in Fig.~\ref{cv3}. There is some improvement after half of the dataset getting involved.
 
-  Extract some indirect features from the origin features, calculate the minimum and maximum value of features in 30 days, minimum maximum NDVI in 30 days, mean temperature difference, and variance e.t using a rolling window method from pandas. Then, run the test base on these indirect features get the learning curve in Fig.~\ref{cv4}.
+  To extract some indirect features from the origin features, we calculate the minimum and maximum value of features in 30 days, minimum maximum NDVI in 30 days, mean temperature difference, and variance e.t using a rolling window method from pandas. Then, run the test base on these indirect features get the learning curve in Fig.~\ref{cv4}.
 
 \subsection{LSTM}
-Use the EarlyStopping callback function to alleviate overfitting and set training epoch to 1000. The process of training shown in Fig.~\ref{fig:train}.
+  Use the EarlyStopping callback function to alleviate overfitting and set training epoch to 1000. The process of training shown in Fig.~\ref{fig:train}.
 
-\begin{figure}[htbp]
-  \centerline{\includegraphics[width=\linewidth]{figures/lp.png}}
-  \caption{Training Process of LSTM}
-  \label{fig:train}
-\end{figure}
+  \begin{figure}[htbp]
+    \centerline{\includegraphics[width=\linewidth]{figures/lp.png}}
+    \caption{Training Process of LSTM}
+    \label{fig:train}
+  \end{figure}
 
-The MSE of both training and cross-validation go lower accompanied by the increment of training epochs. This procedure has been run several times, it always triggers the EarlyStopping callback function at between 100 to 300 epochs. The final mean cross-validation MSE for all runs is 12.3793 comparing to RF's 23.72, the performance of LSTM is 47.84\% better than RF which is quite accurate to forecast the yield of corps whose $R^2$ error is 83.61\% after solving the overfitting problem.
+  The MSE of both training and cross-validation go lower accompanied by the increment of training epochs. This procedure has been run several times, it always triggers the EarlyStopping callback function at between 100 to 300 epochs. The final mean cross-validation MSE for all runs is 12.3793 comparing to RF's 23.72, the performance of LSTM is 47.84\% better than RF which is quite accurate to forecast the yield of corps whose $R^2$ error is 83.61\% after solving the overfitting problem.
 
 \section{Conclusion and Future work} \label{sec:con}
-It is found that both LSTM and RF algorithms do well in the prediction of agricultural production, but there is some difference between them.
-
-The implementation of LSTM is more complex, and many parameters need to be tested and decided, and it is not easy to change the data's structure when there are new data get involved. There will be more time needed to config the model to meet the change of data either on features or recorded days. What's more, the training of a neural network consumes a lot of computing resources comparing to a random forest. The random forest, on the contrary, less work needed to fit the change of data, but more work needed to get pretreatment data, which alleviates the overfitting problem.
-
-There are still some factors we do not consider due to the limitation of data. Some features which are crucial to the growth of crops, such as how farmers plant the crop, the condition of the sow in a certain location e.t, are not involved in the models due to the lack of data source. The weather, undoubtedly, can influence the yield of corps, but some subjective behaviors can greatly improve the yield. The corps is not planted in an environment free of human intervention, water the crops when precipitation is at a low level is a natural behavior. If can get access such sort of data, the accuracy of prediction will be higher.  
+  We composed a Bi-LSTM model to predict the wheat yield in the U.S and compared it with some commonly used regression algorithms. The results show that the model outperforms all of the algorithms this paper involveed and less likely to get overfitting which is commonly found in other regression algorithms. However, there are still some factors we do not consider due to the limitation of data. Some features which are crucial to the growth of crops, such as how farmers plant the crop and the condition of the sow in a certain location e.t, are not involved in the models due to the lack of data sources. The weather, undoubtedly, greatly influence the yield of corps, but some subjective behaviors of human can also influence the yield. The corps is not planted in an environment free of human intervention, water the crops when precipitation is a bisic natural behavior that people influence the planting. If can get access such sort of data, the accuracy of prediction will be higher. 
 
 \bibliographystyle{IEEEtran}
 \bibliography{IEEEabrv,reference}
