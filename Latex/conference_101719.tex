@@ -177,29 +177,27 @@ hanksliu@uestc.edu.cn}
     The dataset includes data of winter wheat yield in the U.S with local climate conditions in 2013 and 2014, and contains 150 counties from 5 states and has 26 features, 360042 entries in total.
 
   \subsubsection{Missing items}
-    There are 654 missing items in data, accounting for 1.81\% of the total data volume, among which 2013 accounts for 43.42\%. Deleting an entry with missing items may result in the decline of continuity due to the characteristics of crop growth. Filling to missing items with the nearest and most recent entry due to the continuity of climate data in both space and time. A single miss item being filled by its adjacent items, while continuous missing data can be filled from two ends to the middle one.
+    There are 654 missing items in the dataset, accounting for 1.81\% of the total data volume. Deleting an entry with missing items may result in the decline of continuity of data in a certain location due to the characteristics of crop growth that disaster of someday will cause a great reduction of output. Filling the missing items with the nearest and most recent entry due to the continuity of climate data in both space and time. For a isolated miss item, it is filled by its spatial and temporal adjacent items, and for continuous time missing items, they will be filled from both ends to the middle one.
 
   \subsubsection{Abnormal data}
-    By looking at the data, an apparent anomaly found in the yield. There are entries having nonzero yield with a relatively short period of time from being seeded to harvest which was recorded by column \textit{DayInSeason}.  
-
-    Fig.~\ref{1a} shows the distribution of duration between the first record and the last in different locations, locations have 185 days of records account for 93.6\%. Therefore, delete data from locations whose planting duration less than 185 days. However, these positions not all were fully recorded for 185 days shown by Fig.~\ref{1c}, there are days not to be recorded for some reason. After all positions with miss records being deleted, all the data had consistent planting duration shown by Fig.~\ref{1d}.
-
+    By going through the data, an apparent anomaly was found in the yield which is shown in Fig.~\label{fig:drop-data}(a). There are entries having nonzero yield with a relatively short period of time from being seeded to harvest which was recorded by column \textit{DayInSeason}. To ensure a uniformed input shape and drop such abnormal data, we dropped data from locations who have recorded for less than 186 days. After doing so, there are 901 locations left in the dataset which all have the same planting duration of 186 days.
 
   \begin{figure} 
       \centering
-    \subfloat[\label{1a}]{%
+      % TODO: 重绘图a
+    \subfloat{%
         \includegraphics[width=0.45\linewidth]{./figures/PDF of max DayInSeason (2013).png}}
       \hfill
-    \subfloat[\label{1b}]{%
-          \includegraphics[width=0.45\linewidth]{./figures/date&locations(origin).png}}
-      \\
-    \subfloat[\label{1c}]{%
-          \includegraphics[width=0.45\linewidth]{./figures/date&locations.png}}
-      \hfill
-    \subfloat[\label{1d}]{%
+    % \subfloat[\label{1b}]{%
+          % \includegraphics[width=0.45\linewidth]{./figures/date&locations(origin).png}}
+      % \\
+    % \subfloat[\label{1c}]{%
+          % \includegraphics[width=0.45\linewidth]{./figures/date&locations.png}}
+      % \hfill
+    \subfloat{%
           \includegraphics[width=0.45\linewidth]{./figures/date&locations(clean).png}}
-    \caption{Missing data processing}
-    \label{fig:missing-data} 
+    \caption{(a) shows the location  }
+    \label{fig:drop-data}
   \end{figure}
 
   \subsubsection{Map visualization}
