@@ -50,8 +50,13 @@ hanksliu@uestc.edu.cn}
 \maketitle
 
 \begin{abstract}
-  The demand for food 
-  This paper considers the crop yield forecasting problem base on the wheat yield dataset of the U.S. To provide advice for farmers to raise the per-unit-area yield under the circumstance that the demand for food production is significantly increasing while the cultivated land area haven't expanded in recent decades, we composed a Bi-LSTM model with convolutional neural networks feature extraction sub-network to predict the wheat yield. The results of the experiment show that the model outperforms the other regression algorithms we have tested on the same dataset and can overcome the overfitting problem which is commonly found in other algorithms. The $R^2$ score of the model reaches 0.87 and the MSE is 19.6252. 
+  The demand for food is growing rapidly which calls for a more efficient method to grow crops. 
+  %The emergence of precision agriculture has made that possible by monitoring and analyzing the conditions during 
+  Precisely predicting the yield of corps can provide the farm operators advice to optimize their method of planting.
+  However, existing methods have limitations in achieving high prediction accuracy and obviating overfitting.
+  In this work, we consider the wheat yield forecasting problem of the U.S and compose a Bi-LSTM model with convolutional neural networks feature extraction sub-network to predict the wheat yield. 
+  The proposed model and other common models are tested base on the U.S wheat yield dataset which contains weather data and seasonal yield.
+  The results of the experiment show that the model outperforms the other regression algorithms and can overcome the overfitting problem which is commonly found in other algorithms. The $R^2$ score of the model reaches 0.87 and the MSE is 19.6252. 
   % TODO: 最终的结果需要检查
 \end{abstract}
 
@@ -60,10 +65,12 @@ hanksliu@uestc.edu.cn}
 \end{IEEEkeywords}
 
 \section{Introduction}
+  % 分析重要性
   The food issue has always been a hot topic and directly affects many aspects of people's lives. With the explosive growth of the world population, countries all over the world are exploring methods to grow crops with less natural resource consumption while increasing production under the guarantee of environmental protection. In such situation, the precision and intelligence of agriculture are becoming increasingly important. Therefore, researchers have focused on the collection, combination and processing of external information including data of climate, satellites and geography in recent years. Such researches do improved the modern agricultural technology and also helped increase agricultural yield and crop quality.\par
   The forecast of crop yield is an important part of modern agricultural technology, which can help people adjust cultivate methods in time and improve production efficiency. Many developed countries and regions have developed advanced agricultural yield forecasting system, such as Monitoring Agricultural Resources (MARS) of EU\cite{vanderveldePerformanceMARScropYield2019}. MARS has been using remote sensing since 1988, which initially designed to apply the newly emerging space technologies for providing independent and timely information on crop areas and yields, and has become a integrated system of agricultural monitoring and forecast.\par
-  Over the past few decades, regression algorithms and sensor technologies have developed rapidly with the advancement of computing hardware and theories, that development directly leads to the emergence of more accurate algorithms of prediction. At the beginning, statistical-based models with probability theory or regression methods were widely used to implement yield forecasting\cite{matisMarkovChainApproach1985, stephensCropYieldForecasting1995}. Since the explosive development of space technology and electronic industry, remote sensing and sensor network are employed to farmland monitoring.  The data from remote sensing and sensor network have played an important role in the improvement of the prediction accuracy\cite{youDeepGaussianProcess2017, baruthUseRemoteSensing}. Recent years, the raise of deep learning has also boosted the development of crop yield forecasting. Many deep learning models have been applied to this area, which allows more complicated data, such as genetic information, to be processed comparing to the statistical weather data\cite{mateo-sanchisSynergisticIntegrationOptical2019,steenUsingDeepLearning2016a}. Another advantage of deep learning is the feature extraction, that data from higher levels of the hierarchy are formed by the composition of lower level features\cite{lecunDeepLearning2015}.\par
-  In this paper, we proposed a Bi-LSTM model with CNN feature extraction sub-network to predict the yield on a dataset including weather data and wheat yield from 1895 different plant locations of the U.S in 2013 and 2014. The rest of this paper is organized as follows. Section.\ref{sec:RW} introduces the common used methods in crop yield prediction. Section.\ref{sec:MB} introduces the mathematic backgrounds of the LSTM and the bidirectional RNN, Section.\ref{sec:Arch} introduces the architecture of the Bi-LSTM model and in Section.\ref{sec:ex} experiment results are revealed and we discuss its feasibility and advantages. Finally, the conclusion and some directions of future work are given about our method in Section.\ref{sec:con}.
+  Over the past few decades, regression algorithms and sensor technologies have developed rapidly with the advancement of computing hardwares and theories, that development directly leads to the emergence of more accurate algorithms of prediction. At the beginning, statistical-based models with probability theory or regression methods were widely used to implement yield forecasting\cite{matisMarkovChainApproach1985, stephensCropYieldForecasting1995}. Since the explosive development of space technology and electronic industry, remote sensing and sensor network are employed to farmland monitoring.  The data from remote sensing and sensor network have played an important role in the improvement of the prediction accuracy\cite{youDeepGaussianProcess2017, baruthUseRemoteSensing}. Such models can not find the inner relations between features and yield and that drawback leads to the low prediction accuracy comparing to the deep learning models.\par
+  Besides the aforementioned methods, a new technique which is recently gaining momentum thanks for the application of GPU in calculation is deep learning. Many deep learning models have been applied to this area, which allows more complicated data, such as genetic information, to be processed comparing to the statistical weather data\cite{mateo-sanchisSynergisticIntegrationOptical2019,steenUsingDeepLearning2016a}. Another advantage of deep learning is the feature extraction, that data from higher levels of the hierarchy are formed by the composition of lower level features\cite{lecunDeepLearning2015}. However, the existing deep learning model are suffering from overfitting problem which leads to the deterioration of performance on data that model haven't seen. \par
+  In this paper, we proposed a Bi-LSTM model with CNN feature extraction sub-network which can obviate the overfitting and maintain high accuracy which outperforms the other tested models. The rest of this paper is organized as follows. Section.\ref{sec:RW} introduces the common used methods in crop yield prediction. Section.\ref{sec:MB} introduces the mathematic backgrounds of the LSTM and the bidirectional RNN, Section.\ref{sec:Arch} introduces the architecture of the Bi-LSTM model and in Section.\ref{sec:ex} experiment results are revealed and we discuss its feasibility and advantages. Finally, the conclusion and some directions of future work are given about our method in Section.\ref{sec:con}.
 
 \section{Related works} \label{sec:RW}
 
@@ -137,7 +144,7 @@ hanksliu@uestc.edu.cn}
 
       \begin{figure*}[tb]
         \centering
-        \includegraphics[width=\linewidth]{figures/new_arch.pdf}
+        \includegraphics[width=18cm,height=4cm]{figures/new_arch.pdf}
         \caption{The architecture of the model are splited into two sub-networks, one is the CNN sub-network for feature extraction and the other is Bi-LSTM sub-network for yield prediction.}
         \label{fig:arch}
       \end{figure*}
@@ -196,10 +203,10 @@ hanksliu@uestc.edu.cn}
   \begin{figure*}[htb]
       \centering
     \subfloat{%
-        \includegraphics[width=0.45\linewidth]{./figures/data_locations.png}}
+        \includegraphics[width=8cm,height=4cm]{./figures/data_locations.png}}
       \hfill
     \subfloat{
-          \includegraphics[width=0.45\linewidth]{./figures/map.png}} 
+          \includegraphics[width=8cm,height=4cm]{./figures/map.png}} 
     \caption{(a)shows the location of all data being collected, yellow points represent locations monitored for two years which accounts for most of the locations (b)shows the yield varying by locations}
     \label{fig:Map_visual}
   \end{figure*}
