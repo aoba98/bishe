@@ -368,3 +368,4 @@ TSWLatexianTemp*
 # standalone packages
 *.sta
 Latex/conference_101719.pdf
+Latex/concordance*.pdf
